@@ -21,8 +21,11 @@ jobs:
       - name: Setup python environment
         uses: actions/setup-python@v1
 
-      - name: Install ansible packages
-        run: pip install ansible ansible-lint ansible-review
+      - name: Install packages
+        run: pip install ansible ansible-lint ansible-review flake8
+
+      - name: Check python code
+        run: flake8 . --statistics
 
       - name: Run linter on core and advanced-core roles
         run: ansible-lint -v roles/{core,advanced-core}/*
