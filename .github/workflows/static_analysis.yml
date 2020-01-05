@@ -31,4 +31,4 @@ jobs:
         run: ansible-lint -v resources/examples/simple_cluster/playbooks/*.yml
 
       - name: Run ansible-review
-        run: git ls-files | xargs ansible-review
+        run: git ls-files | xargs ansible-review -d .ansible-review
