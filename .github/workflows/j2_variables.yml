@@ -1,0 +1,47 @@
+name: Check j2_variables
+on:
+  push:
+    branches:
+      - master
+      - j2_variables_tests
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+
+jobs:
+  check:
+    name: Check j2_variables
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup python environment
+        uses: actions/setup-python@v1
+
+      - name: Install packages
+        run: pip install ansible
+
+      - name: Generate j2_variables with simple_cluster inventory
+        run: 'ansible management1 -i ./resources/examples/simple_cluster/inventory/
+               -l management1 -c local -m template
+               -a "src=./tests/units/print_j2_variables.j2 dest=./print_j2_variables.txt"'
+
+      - name: Check j2_variables with simple_cluster inventory
+        run: 'sha256sum ./print_j2_variables.txt | grep -q 66307cab295596ec7df7485a00dbca4dfac3ddb18130179b25d6dbb5dac111a3'
+        if: success()
+
+      - name: Generate j2_variables with simple_cluster inventory and no admin network
+        run: 'ansible management1 -i ./resources/examples/simple_cluster/inventory/
+               -l management1 -c local -m template
+               -a "src=./tests/units/print_j2_variables.j2 dest=./print_j2_variables.txt"
+               --extra-vars="{j2_current_iceberg_network: noadminnetwork}"'
+        if: success() || failure()
+
+      - name: Check j2_variables with simple_cluster inventory and no admin network
+        run: 'sha256sum ./print_j2_variables.txt | grep -q bd80db1b0f73e157f824cf28b430ec5f7df7f34940e481fe0b25e2d94d5ac774'
+        if: success()
