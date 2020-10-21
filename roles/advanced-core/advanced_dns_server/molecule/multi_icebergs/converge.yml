@@ -1,0 +1,40 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    management_networks_naming: "ice"
+    external_dns: []
+    networks:
+      ice1-1:
+        subnet: 10.11.0.0
+        prefix: 16
+        netmask: 255.255.0.0
+        broadcast: 10.11.255.255
+        is_in_dns: true
+        services_ip:
+          dns_ip:
+            - 10.11.0.1
+            - 10.11.0.2
+      ice2-1:
+        subnet: 10.12.0.0
+        prefix: 16
+        netmask: 255.255.0.0
+        broadcast: 10.12.255.255
+        is_in_dns: true
+        services_ip:
+          dns_ip:
+            - 10.12.0.1
+            - 10.12.0.2
+    domain_name: example.com
+    dns_slaves:
+      - 10.11.0.2
+      - 10.11.0.3
+      - 10.11.0.4
+    start_services: true
+    enable_services: true
+
+  tasks:
+    - name: "Include advanced_dns_server"
+      include_role:
+        name: "advanced_dns_server"
