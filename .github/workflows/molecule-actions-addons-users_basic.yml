@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ci/ubuntu-20.04
     paths:
       - 'roles/addons/users_basic/**'
       - '.github/workflows/molecule-actions-addons-users_basic.yml'

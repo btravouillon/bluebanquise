@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ci/ubuntu-20.04
     paths:
       - 'roles/core/nfs_server/**'
       - '.github/workflows/molecule-actions-core-nfs_server.yml'

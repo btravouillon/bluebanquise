@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ci/ubuntu-20.04
     paths:
       - 'roles/core/dhcp_server/**'
       - '.github/workflows/molecule-actions-core-dhcp_server.yml'
