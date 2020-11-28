@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Test RPM build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - name: install the needed packages
       run: sudo apt-get install rpm bash
