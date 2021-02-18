@@ -1,6 +1,16 @@
 # Changelog
 
-## 1.4.0 - Next-release
+## Next-release
+
+### Major changes
+
+#### Roles improvement or fix
+
+  - addons/diskless:
+    - fix issues preventing access to nodes booting a livenet image (#525)
+    - fix issues with dnf command in the livenet module (#528)
+
+## 1.4.0
 
 ### Major changes
 
@@ -14,8 +24,6 @@
   
 #### Roles improvement or fix
 
-  - addons/diskless:
-    - fix issues preventing access to nodes booting a livenet image (#525)
   - addons/nic_nmcli:
     - add all ansible nmcli module capabilities (#444)
     - add routes handling on interfaces (#469)
