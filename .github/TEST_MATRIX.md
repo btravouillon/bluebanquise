@@ -25,8 +25,6 @@ Molecule unit tests
 |![core/ssh_master unit testing](https://github.com/bluebanquise/bluebanquise/workflows/core/ssh_master%20unit%20testing/badge.svg)                   | x | x | x |
 |![core/ssh_slave unit testing](https://github.com/bluebanquise/bluebanquise/workflows/core/ssh_slave%20unit%20testing/badge.svg)                     | x | x | x |
 |![core/time unit testing](https://github.com/bluebanquise/bluebanquise/workflows/core/time%20unit%20testing/badge.svg)                               | x | x |   |
-|![advanced-core/advanced_dhcp_server unit testing](https://github.com/bluebanquise/bluebanquise/workflows/advanced-core/advanced_dhcp_server%20unit%20testing/badge.svg)                 | x | x |   |
-|![advanced_core/advanced_dns_server unit testing](https://github.com/bluebanquise/bluebanquise/workflows/advanced_core/advanced_dns_server%20unit%20testing/badge.svg)                   | x | x |   |
 |![addons/clustershell unit testing](https://github.com/bluebanquise/bluebanquise/workflows/addons/clustershell%20unit%20testing/badge.svg)           | x | x | x |
 |![addons/grafana unit testing](https://github.com/bluebanquise/bluebanquise/workflows/addons/grafana%20unit%20testing/badge.svg)                     | x | x |   |
 |![addons/root_password unit testing](https://github.com/bluebanquise/bluebanquise/workflows/addons/root_password%20unit%20testing/badge.svg)         | x | x | x |
