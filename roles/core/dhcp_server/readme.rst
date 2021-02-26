@@ -1,13 +1,12 @@
-Advanced DHCP server
---------------------
+DHCP server
+-----------
 
 Description
 ^^^^^^^^^^^
 
-This role provides an advanced dhcp server combined with the iPXE roms of
-BlueBanquise.
-Features like shared_network, opt82, opt61 or snp/snponly roms are provided here
-for very specific configurations or needs.
+This role provides a dhcp server combined with the iPXE roms of BlueBanquise.
+Features like shared_network, opt82, opt61 or snp/snponly roms are provided
+here for very specific configurations or needs.
 
 Instructions
 ^^^^^^^^^^^^
@@ -24,8 +23,8 @@ Also, ensure dhcp is set to true for your network.
 Finally, note that the following parameters can be set in the inventory, to
 override default ones:
 
-* advanced_dhcp_server_default_lease_time (default to 600)
-* advanced_dhcp_server_max_lease_time (default to 7200)
+* dhcp_server_default_lease_time (default to 600)
+* dhcp_server_max_lease_time (default to 7200)
 
 Consider increasing the default values once your network is production ready.
 
@@ -88,7 +87,7 @@ shared_network variable is optional and is simply ignored if not set.
 opt 61 and opt 82
 """""""""""""""""
 
-It is possible to use advanced dhcp features to identify an host. The following
+It is possible to use dhcp features to identify an host. The following
 parameters are available, for the host and its BMC:
 
 - mac: identify based on MAC address. Same than standard dhcp server.
@@ -147,7 +146,7 @@ For example:
 
 Will trigger macro called *my_equipment_x*.
 
-To enable this feature, define *advanced_dhcp_server_enable_patterns* to
+To enable this feature, define *dhcp_server_enable_patterns* to
 **true**. The role will now look for a file called *patterns.j2* in files folder
 of the role (and fail if the file do not exist).
 
@@ -175,6 +174,7 @@ host {{ macro_host }} {
 Changelog
 ^^^^^^^^^
 
+* 1.0.6: Move role to core. Bruno Travouillon <devel@travouillon.fr>
 * 1.0.5: Improve performances. Add dhcp_options and patterns features. Allow multiple entries per host. Benoit Leveugle <benoit.leveugle@atos.net>
 * 1.0.4: Update to new network_interfaces syntax. Benoit Leveugle <benoit.leveugle@gmail.com>
 * 1.0.3: Added support of multiple DNS servers. Bruno Travouillon <devel@travouillon.fr>
