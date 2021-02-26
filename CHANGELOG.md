@@ -4,6 +4,9 @@
 
 ### Major changes
 
+  - Move role advanced_core.advanced_dhcp_server to core.dhcp_server
+  - Move role advanced_core.advanced_dns_server to core.dns_server
+
 #### Roles improvement or fix
 
   - addons/diskless:

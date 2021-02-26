@@ -1,11 +1,10 @@
-Advanced DNS server
--------------------
+DNS server
+----------
 
 Description
 ^^^^^^^^^^^
 
-This role provides an advanced dns server based on bind, and is expected to
-provide more and more features.
+This role provides a dns server based on bind.
 
 Instructions
 ^^^^^^^^^^^^
@@ -100,6 +99,7 @@ Files generated:
 Changelog
 ^^^^^^^^^
 
+* 1.1.3: Move role back to core. Bruno Travouillon <devel@travouillon.fr>
 * 1.1.2: Moved role to advanced core. Benoit Leveugle <benoit.leveugle@gmail.com>
 * 1.1.1: Clean. johnnykeats <johnny.keats@outlook.com>
 * 1.1.0: Added DNS slaves support. Bruno Travouillon <devel@travouillon.fr>

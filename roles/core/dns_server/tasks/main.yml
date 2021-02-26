@@ -21,9 +21,9 @@
   tags:
     - always
 
-- name: firewalld █ "Add services to firewall's {{ advanced_dns_server_firewall_zone | default('public') }} zone"
+- name: firewalld █ "Add services to firewall's {{ dns_server_firewall_zone | default('public') }} zone"
   firewalld:
-    zone: "{{ advanced_dns_server_firewall_zone | default('public') }}"
+    zone: "{{ dns_server_firewall_zone | default('public') }}"
     service: "{{ item }}"
     immediate: "yes"
     permanent: "yes"
@@ -31,13 +31,13 @@
   when:
     - ansible_facts.os_family == "RedHat"
     - ep_firewall | default(false) | bool
-  loop: "{{ advanced_dns_server_firewall_services_to_add }}"
+  loop: "{{ dns_server_firewall_services_to_add }}"
   tags:
     - firewall
 
-- name: "package █ Install {{ advanced_dns_server_packages_to_install | join(' ') }} packages"
+- name: "package █ Install {{ dns_server_packages_to_install | join(' ') }} packages"
   package:
-    name: "{{ advanced_dns_server_packages_to_install }}"
+    name: "{{ dns_server_packages_to_install }}"
     state: present
   tags:
     - package
@@ -99,11 +99,11 @@
 
 - meta: flush_handlers
 
-- name: "service █ Manage {{ advanced_dns_server_services_to_start | join(' ') }} state"
+- name: "service █ Manage {{ dns_server_services_to_start | join(' ') }} state"
   service:
     name: "{{ item }}"
     enabled: "{{ (enable_services | bool) | ternary('yes','no') }}"
     state: "{{ (start_services | bool) | ternary('started', omit) }}"
-  loop: "{{ advanced_dns_server_services_to_start }}"
+  loop: "{{ dns_server_services_to_start }}"
   tags:
     - service

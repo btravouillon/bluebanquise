@@ -21,9 +21,9 @@
   tags:
     - always
 
-- name: "Add services to firewall's {{ advanced_dhcp_server_firewall_zone | default('public') }} zone"
+- name: "Add services to firewall's {{ dhcp_server_firewall_zone | default('public') }} zone"
   firewalld:
-    zone: "{{ advanced_dhcp_server_firewall_zone | default('public') }}"
+    zone: "{{ dhcp_server_firewall_zone | default('public') }}"
     service: "{{ item }}"
     immediate: "yes"
     permanent: "yes"
@@ -31,7 +31,7 @@
   when:
     - ansible_facts.os_family == "RedHat"
     - ep_firewall | default(false) | bool
-  loop: "{{ advanced_dhcp_server_firewall_services_to_add }}"
+  loop: "{{ dhcp_server_firewall_services_to_add }}"
   tags:
     - firewall
 
@@ -39,7 +39,7 @@
   package:
     name: "{{ item }}"
     state: present
-  loop: "{{ advanced_dhcp_server_packages_to_install }}"
+  loop: "{{ dhcp_server_packages_to_install }}"
   tags:
     - package
 
@@ -85,6 +85,6 @@
     name: "{{ item }}"
     enabled: "{{ (enable_services | bool) | ternary('yes','no') }}"
     state: "{{ (start_services | bool) | ternary('started', omit) }}"
-  loop: "{{ advanced_dhcp_server_services_to_start }}"
+  loop: "{{ dhcp_server_services_to_start }}"
   tags:
     - service
