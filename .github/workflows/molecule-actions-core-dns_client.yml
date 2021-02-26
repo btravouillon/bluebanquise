@@ -3,7 +3,7 @@ name: core/dns_client unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/dns_client/**'
       - '.github/workflows/molecule-actions-core-dns_client.yml'

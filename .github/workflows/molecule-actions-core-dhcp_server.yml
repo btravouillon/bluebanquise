@@ -3,7 +3,7 @@ name: core/dhcp_server unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/dhcp_server/**'
       - '.github/workflows/molecule-actions-core-dhcp_server.yml'

@@ -3,7 +3,7 @@ name: core/pxe_stack unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/pxe_stack/**'
       - '.github/workflows/molecule-actions-core-pxe_stack.yml'

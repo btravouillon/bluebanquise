@@ -1,6 +1,8 @@
 name: Test RPM build
 on:
   push:
+    branches:
+      - devel
   pull_request:
 
 jobs:

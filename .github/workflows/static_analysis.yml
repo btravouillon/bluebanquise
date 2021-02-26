@@ -2,7 +2,7 @@ name: Static code analysis
 on:
   push:
     branches:
-      - master
+      - devel
     paths-ignore:
       - '**.md'
       - '**.rst'

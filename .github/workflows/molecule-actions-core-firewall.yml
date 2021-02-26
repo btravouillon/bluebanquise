@@ -3,7 +3,7 @@ name: core/firewall unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/firewall/**'
       - '.github/workflows/molecule-actions-core-firewall.yml'

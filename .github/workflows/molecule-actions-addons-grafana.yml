@@ -3,7 +3,7 @@ name: addons/grafana unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/addons/grafana/**'
       - '.github/workflows/molecule-actions-addons-grafana.yml'

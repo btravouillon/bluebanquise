@@ -3,7 +3,7 @@ name: core/bluebanquise unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/bluebanquise/**'
       - '.github/workflows/molecule-actions-core-bluebanquise.yml'
