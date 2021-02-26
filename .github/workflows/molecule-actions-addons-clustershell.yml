@@ -3,7 +3,7 @@ name: addons/clustershell unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/addons/clustershell/**'
       - '.github/workflows/molecule-actions-addons-clustershell.yml'

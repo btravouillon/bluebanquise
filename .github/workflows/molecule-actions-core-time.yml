@@ -3,7 +3,7 @@ name: core/time unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/time/**'
       - '.github/workflows/molecule-actions-core-time.yml'

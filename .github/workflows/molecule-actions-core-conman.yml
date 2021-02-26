@@ -3,7 +3,7 @@ name: core/conman unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/conman/**'
       - '.github/workflows/molecule-actions-core-conman.yml'

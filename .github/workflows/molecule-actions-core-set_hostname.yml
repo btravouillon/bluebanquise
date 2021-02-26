@@ -3,7 +3,7 @@ name: core/set_hostname unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/set_hostname/**'
       - '.github/workflows/molecule-actions-core-set_hostname.yml'

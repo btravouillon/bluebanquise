@@ -3,7 +3,7 @@ name: core/log_client unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/log_client/**'
       - '.github/workflows/molecule-actions-core-log_client.yml'

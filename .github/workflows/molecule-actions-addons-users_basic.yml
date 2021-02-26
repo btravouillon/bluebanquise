@@ -3,7 +3,7 @@ name: addons/users_basic unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/addons/users_basic/**'
       - '.github/workflows/molecule-actions-addons-users_basic.yml'

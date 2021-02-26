@@ -3,7 +3,7 @@ name: core/repositories_client unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/repositories_client/**'
       - '.github/workflows/molecule-actions-core-repositories_client.yml'

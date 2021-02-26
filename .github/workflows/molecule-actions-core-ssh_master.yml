@@ -3,7 +3,7 @@ name: core/ssh_master unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/ssh_master/**'
       - '.github/workflows/molecule-actions-core-ssh_master.yml'

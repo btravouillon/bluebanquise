@@ -3,7 +3,7 @@ name: core/nfs_server unit testing
 on:
   push:
     branches:
-      - master
+      - devel
     paths:
       - 'roles/core/nfs_server/**'
       - '.github/workflows/molecule-actions-core-nfs_server.yml'
