@@ -41,30 +41,30 @@ hash_behaviour and groups.
 %autosetup
 
 # Delete CICD files
-find roles/{core,advanced-core,addons} -maxdepth 2 \( -name 'molecule' -o -name '.ansible-lint' -o -name '.yamllint' \) -print0 \
+find roles/{core,addons} -maxdepth 2 \( -name 'molecule' -o -name '.ansible-lint' -o -name '.yamllint' \) -print0 \
  | xargs -0 rm -rf
 
 # Define content of roles/<role>/vars/ as configuration
-find -L roles/{core,advanced-core,addons} -type f -path 'roles/*/vars/*' \
+find -L roles/{core,addons} -type f -path 'roles/*/vars/*' \
  | xargs -l1 -i{} echo '%config %{_sysconfdir}/%{name}/{}' > rolesfiles.txt
 
 # Define content of roles/<role>/{files,templates}/ as non replaceable configuration
-find -L roles/{core,advanced-core,addons} -type f -path 'roles/*/files/*' \
+find -L roles/{core,addons} -type f -path 'roles/*/files/*' \
  | xargs -l1 -i{} echo '%config(noreplace) %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
 
-find -L roles/{core,advanced-core,addons} -type f -path 'roles/*/templates/*' \
+find -L roles/{core,addons} -type f -path 'roles/*/templates/*' \
  | xargs -l1 -i{} echo '%config(noreplace) %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
 
 # Define readme.rst as documentation
-find roles/{core,advanced-core,addons} -type f -name readme.rst \
+find roles/{core,addons} -type f -name readme.rst \
  | xargs -l1 -i{} echo '%doc %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
 
 # Manage the directories
-find roles/{core,advanced-core,addons} -type d \
+find roles/{core,addons} -type d \
  | xargs -l1 -i{} echo '%dir %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
 
 # All other files in roles subdirectory are standard
-find roles/{core,advanced-core,addons} -type f ! -name readme.rst \
+find roles/{core,addons} -type f ! -name readme.rst \
  ! -path 'roles/*/templates/*' ! -path 'roles/*/files/*' ! -path 'roles/*/vars/*' \
  | xargs -l1 -i{} echo %{_sysconfdir}/%{name}/{} >> rolesfiles.txt
 
@@ -89,7 +89,6 @@ mkdir -p %{buildroot}%{_sysconfdir}/%{name}/roles
 cp -a ansible.cfg %{buildroot}%{_sysconfdir}/%{name}/
 cp -aL internal %{buildroot}%{_sysconfdir}/%{name}/
 cp -aL roles/core %{buildroot}%{_sysconfdir}/%{name}/roles/
-cp -aL roles/advanced-core %{buildroot}%{_sysconfdir}/%{name}/roles/
 cp -aL roles/addons %{buildroot}%{_sysconfdir}/%{name}/roles/
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/roles/customs
 mkdir -p %{buildroot}%{_sbindir}

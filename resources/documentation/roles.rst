@@ -29,12 +29,6 @@ CORE
 .. include:: roles/core/ssh_slave/readme.rst
 .. include:: roles/core/time/readme.rst
 
-ADVANCED CORE
-=============
-
-.. include:: roles/advanced-core/advanced_dhcp_server/readme.rst
-.. include:: roles/advanced-core/advanced_dns_server/readme.rst
-
 ADDONS
 ======
 
