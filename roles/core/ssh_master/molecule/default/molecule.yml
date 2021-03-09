@@ -88,16 +88,19 @@ provisioner:
             network_interfaces:
               - interface: en0
                 network: ice1-1
+            ssh_master_stricthostkeychecking: 'accept-new'
           fake-host2:
             j2_current_iceberg_network: ice1
             network_interfaces:
               - interface: en0
                 network: ice1-1
+            ssh_master_stricthostkeychecking: 'ask'
           fake-host3:
             j2_current_iceberg_network: ice1
             network_interfaces:
               - interface: en0
                 network: ice1-1
+            ssh_master_userknownhostsfile: '/dev/null'
           fake-host4:
             j2_current_iceberg_network: ice1
             network_interfaces:

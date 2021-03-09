@@ -49,3 +49,24 @@
         that: ssh_conf['content'] | b64decode |
                 regex_findall(("^Host \*\n^ +StrictHostKeyChecking"), multiline=True) |
                 length == 0
+
+- name: Verify StrictHostKeyChecking and UserKnownHostsFile
+  hosts:
+    - icebergs-off
+    - hostkey_checking
+  tasks:
+    - name: Check StrictHostKeyChecking accept-new for fake-host1
+      assert:
+        that: ssh_conf['content'] | b64decode |
+                regex_findall(("^Host fake-host1\n^ +StrictHostKeyChecking accept-new$"),
+                multiline=True) | length == 1
+    - name: Check StrictHostKeyChecking ask for fake-host2
+      assert:
+        that: ssh_conf['content'] | b64decode |
+                regex_findall(("^Host fake-host2\n^ +StrictHostKeyChecking ask$"),
+                multiline=True) | length == 1
+    - name: Check UserKnownHostsFile /dev/null for fake-host3
+      assert:
+        that: ssh_conf['content'] | b64decode |
+                regex_findall(("^Host fake-host3\n^ +UserKnownHostsFile /dev/null$"),
+                multiline=True) | length == 1

@@ -7,6 +7,12 @@
 {# Macro to avoid redundancy #}
 {% macro write_host(host,macro_node_main_network,ssh_jump) %}
 Host {{ host }}
+    {% if hostvars[host].ssh_master_stricthostkeychecking is defined %}
+    StrictHostKeyChecking {{ hostvars[host].ssh_master_stricthostkeychecking }}
+    {% endif %}
+    {% if hostvars[host].ssh_master_userknownhostsfile is defined %}
+    UserKnownHostsFile {{ hostvars[host].ssh_master_userknownhostsfile }}
+    {% endif %}
     {% if ssh_jump is none %}
     Hostname %h-{{ macro_node_main_network }}
     {% else %}
