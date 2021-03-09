@@ -7,11 +7,6 @@
 {# Macro to avoid redundancy #}
 {% macro write_host(host,macro_node_main_network,ssh_jump) %}
 Host {{ host }}
-    {% if security.ssh.hostkey_checking is not defined or
-          security.ssh.hostkey_checking == false %}
-    StrictHostKeyChecking no
-    UserKnownHostsFile=/dev/null
-    {% endif %}
     {% if ssh_jump is none %}
     Hostname %h-{{ macro_node_main_network }}
     {% else %}
@@ -32,6 +27,13 @@ Host {{ host }}
   {% endfor %}
 {% else %}
   {% set range = groups['all'] %}
+{% endif %}
+
+Host *
+{% if security.ssh.hostkey_checking is not defined or
+      security.ssh.hostkey_checking == false %}
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
 {% endif %}
 
 {% for host in range %}
