@@ -28,8 +28,7 @@ jobs:
           sudo ln -sf /bin/bash /bin/sh
           mkdir -p $HOME/rpmbuild/{SOURCES,SRPMS,RPMS,BUILD,SPECS}
           COMMIT_ID=${{ steps.get_commit_id.outputs.commit_id }}
-          git archive $COMMIT_ID --prefix=bluebanquise-$COMMIT_ID/ --output=$HOME/rpmbuild/SOURCES/bluebanquise-$COMMIT_ID.tar
-          gzip $HOME/rpmbuild/SOURCES/bluebanquise-$COMMIT_ID.tar
-          tar xvf $HOME/rpmbuild/SOURCES/bluebanquise-$COMMIT_ID.tar.gz bluebanquise-$COMMIT_ID/resources/packaging/bluebanquise.spec -O > $HOME/rpmbuild/SPECS/bluebanquise.spec
-          rpmbuild -ba --define "version $COMMIT_ID" $HOME/rpmbuild/SPECS/bluebanquise.spec
-          tar zcf bluebanquise-${COMMIT_ID}.tar.gz -C $HOME/rpmbuild/ RPMS/noarch/ SRPMS/
+          git archive $COMMIT_ID --prefix=clusstack-$COMMIT_ID/ --output=$HOME/rpmbuild/SOURCES/clusstack-$COMMIT_ID.tar.gz
+          tar xvf $HOME/rpmbuild/SOURCES/clusstack-$COMMIT_ID.tar.gz clusstack-$COMMIT_ID/resources/packaging/clusstack.spec -O > $HOME/rpmbuild/SPECS/clusstack.spec
+          rpmbuild -ba --define "version $COMMIT_ID" $HOME/rpmbuild/SPECS/clusstack.spec
+          tar zcf clusstack-${COMMIT_ID}.tar.gz -C $HOME/rpmbuild/ RPMS/noarch/ SRPMS/
