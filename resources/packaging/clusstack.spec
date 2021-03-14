@@ -4,7 +4,7 @@
 nic_nmcli ofed ofed_sm openldap_client openldap_server powerman prometheus_client \
 prometheus_server report root_password singularity slurm sssd users_basic
 
-Name:           bluebanquise
+Name:           clusstack
 Version:        %{version}
 Release:        1%{?dist}
 Summary:        Ansible based cluster stack
@@ -14,6 +14,7 @@ URL:            https://www.bluebanquise.com
 Source0:        %{name}-%{version}.tar.gz
 
 BuildArch:      noarch
+Conflicts:      bluebanquise
 # BuildRequires:
 Requires:       ansible
 
@@ -40,70 +41,80 @@ hash_behaviour and groups.
 %prep
 %autosetup
 
+# Use default roles_path in ansible.cfg
+sed -i -e 's/^roles_path/# roles_path/' ansible.cfg
+
 # Delete CICD files
-find roles/{core,addons} -maxdepth 2 \( -name 'molecule' -o -name '.ansible-lint' -o -name '.yamllint' \) -print0 \
+find roles/{core,addons} -type d -name 'molecule' -print0 \
  | xargs -0 rm -rf
 
-# Define content of roles/<role>/vars/ as configuration
-find -L roles/{core,addons} -type f -path 'roles/*/vars/*' \
- | xargs -l1 -i{} echo '%config %{_sysconfdir}/%{name}/{}' > rolesfiles.txt
-
-# Define content of roles/<role>/{files,templates}/ as non replaceable configuration
-find -L roles/{core,addons} -type f -path 'roles/*/files/*' \
- | xargs -l1 -i{} echo '%config(noreplace) %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
-
-find -L roles/{core,addons} -type f -path 'roles/*/templates/*' \
- | xargs -l1 -i{} echo '%config(noreplace) %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
+# Remove dead symlink (../../roles)
+rm -f resources/documentation/roles
 
 # Define readme.rst as documentation
-find roles/{core,addons} -type f -name readme.rst \
- | xargs -l1 -i{} echo '%doc %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
-
-# Manage the directories
-find roles/{core,addons} -type d \
- | xargs -l1 -i{} echo '%dir %{_sysconfdir}/%{name}/{}' >> rolesfiles.txt
-
-# All other files in roles subdirectory are standard
-find roles/{core,addons} -type f ! -name readme.rst \
- ! -path 'roles/*/templates/*' ! -path 'roles/*/files/*' ! -path 'roles/*/vars/*' \
- | xargs -l1 -i{} echo %{_sysconfdir}/%{name}/{} >> rolesfiles.txt
+find roles/core -type f -name readme.rst \
+  -printf "%%%doc %{_datadir}/ansible/roles/%%P\n" > rolesfiles.core
 
 # Build list of files for each addon role
 ROLES_ADDONS="%{roles_addons}"
-for role in ${ROLES_ADDONS//$'\n'/}; do
-    grep "roles/addons/${role}/" rolesfiles.txt > rolesfiles.addons.${role} ;
+for ROLE in ${ROLES_ADDONS//$'\n'/}; do
+    find roles/addons/${ROLE} -type f -name readme.rst \
+      -printf "%%%doc %{_datadir}/ansible/roles/${ROLE}/readme.rst\n" > rolesfiles.addons.${ROLE}
 done
-
-# Build list of files for other roles
-grep -v 'roles/addons/' rolesfiles.txt > rolesfiles.cores
-
-# Workaround 1.2.0: remove execution mod to skip brp-mangle-shebangs
-chmod -x roles/addons/clone/files/clone.ipxe roles/addons/clone/files/deploy_clone.ipxe
-
 
 %build
 
 
 %install
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}/roles
+# Config
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 cp -a ansible.cfg %{buildroot}%{_sysconfdir}/%{name}/
 cp -aL internal %{buildroot}%{_sysconfdir}/%{name}/
-cp -aL roles/core %{buildroot}%{_sysconfdir}/%{name}/roles/
-cp -aL roles/addons %{buildroot}%{_sysconfdir}/%{name}/roles/
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}/roles/customs
+
+# Core roles
+mkdir -p %{buildroot}%{_datadir}/ansible/roles
+cp -aL roles/core/* %{buildroot}%{_datadir}/ansible/roles/
+
+# Add-on roles
+cp -aL roles/addons/* %{buildroot}%{_datadir}/ansible/roles/
+
+# Executables
 mkdir -p %{buildroot}%{_sbindir}
-cp -a tools/bluebanquise-playbook %{buildroot}%{_sbindir}/
+cp -a tools/clusstack-playbook %{buildroot}%{_sbindir}/
 
 
-%files -f rolesfiles.cores
+%files -f rolesfiles.core
 %defattr(-,root,root,-)
 %license LICENSE
 %doc CHANGELOG.md README.md resources/documentation/ resources/examples/
 %dir %{_sysconfdir}/%{name}/
+%dir %{_datadir}/ansible
+%dir %{_datadir}/ansible/roles
+# Core roles
+%{_datadir}/ansible/roles/access_control
+%{_datadir}/ansible/roles/bluebanquise
+%{_datadir}/ansible/roles/conman
+%{_datadir}/ansible/roles/dhcp_server
+%{_datadir}/ansible/roles/display_tuning
+%{_datadir}/ansible/roles/dns_client
+%{_datadir}/ansible/roles/dns_server
+%{_datadir}/ansible/roles/firewall
+%{_datadir}/ansible/roles/hosts_file
+%{_datadir}/ansible/roles/log_client
+%{_datadir}/ansible/roles/log_server
+%{_datadir}/ansible/roles/nfs_client
+%{_datadir}/ansible/roles/nfs_server
+%{_datadir}/ansible/roles/nic
+%{_datadir}/ansible/roles/pxe_stack
+%{_datadir}/ansible/roles/repositories_client
+%{_datadir}/ansible/roles/repositories_server
+%{_datadir}/ansible/roles/set_hostname
+%{_datadir}/ansible/roles/ssh_master
+%{_datadir}/ansible/roles/ssh_slave
+%{_datadir}/ansible/roles/time
 %config(noreplace) %{_sysconfdir}/%{name}/ansible.cfg
 %config %{_sysconfdir}/%{name}/internal/
-%{_sysconfdir}/%{name}/roles/customs/
-%attr(750,root,root) %{_sbindir}/bluebanquise-playbook
+%attr(750,root,root) %{_sbindir}/clusstack-playbook
 
 
 # Create subpackages for each addon role
@@ -114,14 +125,14 @@ local version = rpm.expand("%{version}")
 for role in string.gmatch(rpm.expand("%{roles_addons}"), "[%w_-]+")
 do
   print("%package addons-" .. role .. "\n")
-  print("Summary: Addon " .. role .. " for BlueBanquise\n")
+  print("Summary: Add-on role " .. role .. " for ClusterStack\n")
   print("Requires: " .. name .. " == " .. version .. "\n")
   print("%description addons-" .. role .. "\n")
   print("%files addons-" .. role .. " -f rolesfiles.addons." .. role .. "\n")
+  print(rpm.expand("%{_datadir}") .. "/ansible/roles/" .. role .. "\n")
 end}
 
 
 %changelog
-* Sun Feb  2 2020 Bruno Travouillon <devel@travouillon.fr>
-* Tue Apr 14 2020 strus38 <indigoping4cgmi@gmail.com>
--
+* Sat Mar 13 2021 Bruno Travouillon <devel@travouillon.fr>
+- Initial spec file
